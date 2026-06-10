@@ -4,7 +4,7 @@ export const MEDIA_DB = {
         tagline: "Visual Storyteller",
         subTagline: "Filmmaker · Photographer · Editor",
         bio: "I am a filmmaker, photographer, and video editor from Jogjakarta dedicated to bringing creative visions to life. From cinematic films and corporate profiles to large-scale events, I leverage high-level creativity and strategic problem-solving to overcome any production challenge.",
-        email: "andhika.zaafarani@gmail.com",
+        email: "andhika.maz@gmail.com",
         socials: [
             { label: "Instagram", url: import.meta.env.VITE_INSTAGRAM, icon: "instagram" },
             { label: "Google Drive", url: import.meta.env.VITE_GOOGLE_DRIVE },

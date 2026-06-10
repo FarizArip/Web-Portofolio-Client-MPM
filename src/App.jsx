@@ -60,7 +60,7 @@ return (
 
         {/* Pembungkus ini WAJIB ada agar teks tidak terlalu mengiri */}
         <div className="hero-content">
-          <div className="hero-eyebrow">Cinematographer & Director</div>
+          <div className="hero-eyebrow">Videographer & Editor</div>
           <h1 className="hero-name">{renderHeroName()}</h1>
           <div className="hero-divider"></div>
           <p className="hero-bio">{o.bio}</p>
