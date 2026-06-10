@@ -19,6 +19,9 @@ document.addEventListener('DOMContentLoaded', () => {
     initScrollReveal();
 });
 
+const mediaQuery1 = window.matchMedia('(max-width: 1024px)');
+const mediaQuery2 = window.matchMedia('(max-width: 768px)');
+
 /* ═══════════════════════════════════════════════════════════
    OWNER — populate name/info from DB
    ═══════════════════════════════════════════════════════════ */
@@ -119,6 +122,7 @@ function initCursor() {
    ═══════════════════════════════════════════════════════════ */
 function initNavbar() {
     const navbar = document.getElementById('navbar');
+    const navbrand = document.querySelector('.nav-brand');
     const burger = document.querySelector('.nav-hamburger');
     const mobile = document.querySelector('.nav-mobile');
     const links = document.querySelectorAll('.nav-links a, .nav-mobile a');
@@ -126,18 +130,45 @@ function initNavbar() {
 
     // Scroll → scrolled class + active link
     const onScroll = () => {
-        if (window.scrollY > 60) navbar.classList.add('scrolled');
-        else navbar.classList.remove('scrolled');
+        if (mediaQuery1.matches) {
+            if (window.scrollY > 800) {
+                navbar.classList.add('scrolled');
+                navbrand.innerHTML = "MUHAMMAD ANDHIKA <span>ZAAFARANI</span>";
+            } else {
+                navbar.classList.remove('scrolled');
+                navbrand.innerHTML = "";
+            }
 
-        // Active section detection
-        let current = sections[0];
-        sections.forEach(id => {
-            const el = document.getElementById(id);
-            if (el && window.scrollY >= el.offsetTop - 120) current = id;
-        });
-        links.forEach(a => {
-            a.classList.toggle('active', a.getAttribute('href') === '#' + current);
-        });
+            let current = sections[0];
+            sections.forEach(id => {
+                const el = document.getElementById(id);
+                if (el && window.scrollY >= el.offsetTop - 120) current = id;
+            });
+            links.forEach(a => {
+                a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+            });
+        } else {
+            if (window.scrollY > 60) {
+                document.documentElement.style.setProperty('--body-height', '32px');
+                navbar.classList.add('scrolled');
+                navbrand.innerHTML = "MUHAMMAD ANDHIKA <span>ZAAFARANI</span>";
+            } else {
+                document.documentElement.style.setProperty('--body-height', '0px');
+                navbar.classList.remove('scrolled');
+                navbrand.innerHTML = "";
+            }
+
+
+            // Active section detection
+            let current = sections[0];
+            sections.forEach(id => {
+                const el = document.getElementById(id);
+                if (el && window.scrollY >= el.offsetTop - 120) current = id;
+            });
+            links.forEach(a => {
+                a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+            });
+        }
     };
 
     window.addEventListener('scroll', onScroll, { passive: true });
