@@ -1,122 +1,117 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
-import './App.css'
+import React, { useState } from 'react';
+import { MEDIA_DB } from './data/mediaDb';
+import Navbar from './components/Navbar';
+import CustomCursor from './components/CustomCursor';
+import VideoCarousel from './components/VideoCarousel';
+import PhotoCarousel from './components/PhotoCarousel'; 
+import Contact from './components/Contact';           
+import Footer from './components/Footer';
+import useScrollReveal from './hooks/useScrollReveal';
 
-function App() {
-  const [count, setCount] = useState(0)
+export default function App() {
+  const o = MEDIA_DB.owner;
 
-  return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
+  // ─── STATE UNTUK LIGHTBOX ───
+  const [lightboxData, setLightboxData] = useState(null);
+  const [isLightboxOpen, setIsLightboxOpen] = useState(false);
+
+  const openLightbox = (photo) => {
+    setLightboxData(photo);
+    setIsLightboxOpen(true);
+    document.body.style.overflow = 'hidden'; // Kunci scroll layar
+  };
+
+  const closeLightbox = () => {
+    setIsLightboxOpen(false);
+    document.body.style.overflow = ''; // Aktifkan kembali scroll
+    setTimeout(() => setLightboxData(null), 300); 
+  };
+
+  // Aktifkan efek scroll reveal animasi .reveal
+  useScrollReveal();
+
+  // Helper pemisah nama untuk estetika Hero teks (Kata terakhir Italic)
+  const renderHeroName = () => {
+    const parts = o.name.split(' ');
+    const last = parts.pop();
+    return (
+      <>
+        {parts.join(' ')}<br /><em>{last}</em>
+      </>
+    );
+  };
+
+return (
+  <div id="root">
+    <div id="grain" aria-hidden="true"></div>
+    
+    <CustomCursor />
+    <Navbar ownerName={o.name} />
+
+    <main>
+      {/* HERO SECTION — DISESUAIKAN DENGAN STYLES.CSS */}
+      <section id="home">
+        <div className="hero-bg"></div>
+        
+        <div className="hero-reel">
+          {/* <video src="/videos/hero-reel.mp4" autoPlay loop muted playsInline></video> */}
+          <img src="/images/Bg.PNG" alt="" loading="eager"></img>
         </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
-          </p>
+
+        {/* Pembungkus ini WAJIB ada agar teks tidak terlalu mengiri */}
+        <div className="hero-content">
+          <div className="hero-eyebrow">Cinematographer & Director</div>
+          <h1 className="hero-name">{renderHeroName()}</h1>
+          <div className="hero-divider"></div>
+          <p className="hero-bio">{o.bio}</p>
+          
+          <div className="hero-cta">
+            <a href="#contact" className="btn-primary"><span>Get In Touch</span></a>
+            <a href="#videos" className="btn-ghost">
+              <span>View Reels</span>
+              <div className="arrow"></div>
+            </a>
+          </div>
         </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
+
+        <div className="hero-scroll-hint">
+          <span>Scroll</span>
+          <div className="scroll-line"></div>
+        </div>
+      </section>
+
+      {/* Video Carousel */}
+      <VideoCarousel />
+
+      {/* Photo Carousel */}
+      <PhotoCarousel onOpenLightbox={openLightbox} />
+
+      {/* Contact Form */}
+      <Contact ownerEmail={o.email} isAvailable={o.availableForWork} />
+
+      {/* Lightbox Component */}
+      <div 
+        id="lightbox" 
+        className={isLightboxOpen ? 'open' : ''} 
+        style={{ display: isLightboxOpen ? 'flex' : 'none' }}
+        onClick={(e) => { if(e.target.id === 'lightbox') closeLightbox(); }}
+      >
+        <button className="lightbox-close" onClick={closeLightbox}>
+          <svg width="14" height="14" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5" fill="none">
+            <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+          </svg>
+          Close
         </button>
-      </section>
-
-      <div className="ticks"></div>
-
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
+        <img id="lightboxImg" src={lightboxData?.src || ""} alt={lightboxData?.title || ""} />
+        <div className="lightbox-info">
+          <div className="card-category">{lightboxData?.category || ""}</div>
+          <div className="card-title">{lightboxData?.title || ""}</div>
         </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
+      </div>
+    </main>
 
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
-  )
+    {/* Footer */}
+    <Footer ownerName={o.name} socials={o.socials} />
+  </div>
+);
 }
-
-export default App
