@@ -149,11 +149,9 @@ function initNavbar() {
             });
         } else {
             if (window.scrollY > 60) {
-                document.documentElement.style.setProperty('--body-height', '32px');
                 navbar.classList.add('scrolled');
                 navbrand.innerHTML = "MUHAMMAD ANDHIKA <span>ZAAFARANI</span>";
             } else {
-                document.documentElement.style.setProperty('--body-height', '0px');
                 navbar.classList.remove('scrolled');
                 navbrand.innerHTML = "";
             }
