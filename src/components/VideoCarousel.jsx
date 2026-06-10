@@ -94,8 +94,8 @@ export default function VideoCarousel() {
       {/* ─── KELAS BARU: HEADER DAN TOMBOL NAVIGASI SESUAI STYLES.CSS ─── */}
       <div className="videos-header reveal">
         <div>
-          <div className="section-label">Selected Works</div>
-          <h2 className="section-title">CINEMATIC<br />REELS</h2>
+          <div className="section-label">VIDEOGRAPHY</div>
+          <h2 className="section-title">SELECTED <br />WORKS</h2>
         </div>
         <div className="videos-nav">
           <button className="carousel-btn" onClick={() => goTo(currentIndex - 1)}>←</button>
