@@ -235,6 +235,7 @@ function initVideoCarousel() {
                 activeVideo = null;
             } else {
                 stopAllVideos();
+                vid.muted = true;
                 vid.play();
                 card.classList.add('playing');
                 activeVideo = vid;
