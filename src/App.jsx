@@ -7,6 +7,7 @@ import PhotoCarousel from './components/PhotoCarousel';
 import Contact from './components/Contact';           
 import Footer from './components/Footer';
 import useScrollReveal from './hooks/useScrollReveal';
+import { Analytics } from '@vercel/analytics/next';
 
 export default function App() {
   const o = MEDIA_DB.owner;
@@ -112,6 +113,7 @@ return (
 
     {/* Footer */}
     <Footer ownerName={o.name} socials={o.socials} />
+    <Analytics />
   </div>
 );
 }
